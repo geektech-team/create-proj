@@ -1,20 +1,20 @@
 {
   "name": "create-proj",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "create new project",
   "engines": {
     "node": ">=16.0.0"
   },
   "main": "index.js",
   "bin": {
-    "create-starter": "index.js"
+    "create-proj": "index.js"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:geektech-team/create-starter.git"
+    "url": "git@github.com:geektech-team/create-proj.git"
   },
   "keywords": [
     "create",
@@ -23,9 +23,9 @@
   "author": "Jimmie Max",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/geektech-team/create-starter/issues"
+    "url": "https://github.com/geektech-team/create-proj/issues"
   },
-  "homepage": "https://github.com/geektech-team/create-starter#readme",
+  "homepage": "https://github.com/geektech-team/create-proj#readme",
   "dependencies": {
     "kolorist": "^1.5.1",
     "minimist": "^1.2.6",

@@ -36,6 +36,7 @@ const frontendDependencied = {
 }
 const commonScripts = {
   "lint:es": "eslint ./src --ext .ts,.vue --fix",
+  "prepare": "husky install"
 }
 const frontendScripts = {
   "lint:style": "stylelint src/**/*.{css,less,scss,jsx} --fix",
@@ -289,7 +290,8 @@ async function init() {
       console.log(`  ${pkgManager} run dev`);
       break;
   }
-  console.log();
+  console.log('Then to use husky, please run:');
+  console.log('npm run prepare');
 }
 
 init().catch((e) => {
