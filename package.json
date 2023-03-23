@@ -1,6 +1,6 @@
 {
   "name": "create-proj",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "create new project",
   "engines": {
     "node": ">=16.0.0"

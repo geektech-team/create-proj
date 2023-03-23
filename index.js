@@ -20,13 +20,14 @@ const {
   red,
   reset,
 } = require("kolorist");
-const { exec, execSync } = require("child_process");
+const { execSync } = require("child_process");
 const cwd = process.cwd();
 
 const commonDependencies = {
   "@commitlint/cli": "^17.4.4",
   "@geektech/commitlint-config": "^0.0.2",
   "@geektech/eslint-plugin": "^1.0.3",
+  "eslint": "^8.36.0",
   husky: "^8.0.3",
 };
 const frontendDependencied = {
@@ -248,7 +249,7 @@ async function init() {
   console.log(`\nScaffolding project in ${root}...`);
   execSync(`npm create vite ${projectName} -- --template ${template}`);
 
-  copy(path.join(cwd, "standard/common"), root);
+  copy(path.join(__dirname, "standard/common"), root);
   if (fs.existsSync(path.join(cwd, `standard/${template}`))) {
     copy(path.join(cwd, `standard/${template}`), root);
   }
