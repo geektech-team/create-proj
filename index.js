@@ -246,7 +246,7 @@ async function init() {
   }
 
   // determine template
-  template = variant || framework || template;
+  template = variant || template;
   console.log(`\nScaffolding project in ${root}...`);
   execSync(`npm create vite ${projectName} -- --template ${template}`);
 
