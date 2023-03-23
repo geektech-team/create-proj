@@ -251,8 +251,9 @@ async function init() {
   execSync(`npm create vite ${projectName} -- --template ${template}`);
 
   copy(path.join(__dirname, "standard/common"), root);
-  if (fs.existsSync(path.join(cwd, `standard/${template}`))) {
-    copy(path.join(cwd, `standard/${template}`), root);
+  const templateSpecialDir = path.join(__dirname, `standard/${template}`);
+  if (fs.existsSync(templateSpecialDir)) {
+    copy(templateSpecialDir, root);
   }
 
   const targetPackagePath = path.join(root, `package.json`);
