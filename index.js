@@ -27,30 +27,41 @@ const commonDependencies = {
   "@commitlint/cli": "^17.4.4",
   "@geektech/commitlint-config": "^0.0.2",
   "@geektech/eslint-plugin": "^1.0.3",
-  "eslint": "^8.36.0",
+  eslint: "^8.36.0",
+  prettier: "^2.8.6",
   husky: "^8.0.3",
 };
 const frontendDependencied = {
-  "stylelint": "^15.3.0",
+  stylelint: "^15.3.0",
   "@geektech/stylelint-config": "^0.0.6",
-}
+  less: "^4.1.3",
+  "postcss-less": "^6.0.0",
+};
 const commonScripts = {
-  "lint:es": "eslint ./src --ext .ts,.vue --fix",
-  "prepare": "husky install"
-}
-const frontendScripts = {
-  "lint:style": "stylelint src/**/*.{css,less,scss,jsx} --fix",
-}
+  "lint-staged": "lint-staged",
+  prepare: "husky install",
+};
+const frontendScripts = {};
+const commonLintStaged = {
+  "*.{js,jsx,ts,tsx,vue,css,less,json,md}": ["prettier --write"],
+  "*.{js,ts,tsx,vue}": ["eslint --fix"],
+};
+const frontendLintStaged = {
+  "*.{css,less}": ["stylelint --fix --custom-syntax postcss-less"],
+};
 
 const FRAMEWORKS = [
   {
     name: "vue",
     color: green,
     devDependencies: {
-      ...frontendDependencied
+      ...frontendDependencied,
     },
     scripts: {
-      ...frontendScripts
+      ...frontendScripts,
+    },
+    lintStaged: {
+      ...frontendLintStaged,
     },
     variants: [
       {
@@ -63,6 +74,15 @@ const FRAMEWORKS = [
   {
     name: "react",
     color: cyan,
+    devDependencies: {
+      ...frontendDependencied,
+    },
+    scripts: {
+      ...frontendScripts,
+    },
+    lintStaged: {
+      ...frontendLintStaged,
+    },
     variants: [
       {
         name: "react-ts",
@@ -130,20 +150,6 @@ function emptyDir(dir) {
       fs.unlinkSync(abs);
     }
   }
-}
-
-/**
- * @param {string | undefined} userAgent process.env.npm_config_user_agent
- * @returns object | undefined
- */
-function pkgFromUserAgent(userAgent) {
-  if (!userAgent) return undefined;
-  const pkgSpec = userAgent.split(" ")[0];
-  const pkgSpecArr = pkgSpec.split("/");
-  return {
-    name: pkgSpecArr[0],
-    version: pkgSpecArr[1],
-  };
 }
 
 async function init() {
@@ -268,31 +274,21 @@ async function init() {
     ...commonScripts,
     ...(framework.scripts || {}),
   };
+  packageJson['lint-staged'] = {
+    ...commonLintStaged,
+    ...(framework.lintStaged || {}),
+  }
   fs.writeFileSync(targetPackagePath, JSON.stringify(packageJson, null, 2));
 
-  const pkgInfo = pkgFromUserAgent(process.env.npm_config_user_agent);
-  const pkgManager = pkgInfo ? pkgInfo.name : "npm";
 
   console.log(`\nDone. Now run:\n`);
   if (root !== cwd) {
     console.log(`  cd ${path.relative(cwd, root)}`);
   }
-  switch (pkgManager) {
-    case "yarn":
-      console.log(`  ${pkgManager}`);
-      console.log(`  ${pkgManager} dev`);
-      break;
-    case "pnpm":
-      console.log(`  ${pkgManager} i`);
-      console.log(`  ${pkgManager} dev`);
-      break;
-    default:
-      console.log(`  ${pkgManager} install`);
-      console.log(`  ${pkgManager} run dev`);
-      break;
-  }
-  console.log('Then to use husky, please run:');
-  console.log('npm run prepare');
+  console.log(`  npm install`);
+  console.log(`  npm run dev`);
+  console.log("\nThen to use husky, please run:\n");
+  console.log("  npm run prepare");
 }
 
 init().catch((e) => {
